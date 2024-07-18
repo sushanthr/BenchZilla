@@ -1,0 +1,80 @@
+================================================================
+./GEMINI_XS_EVAL/eval_results_strict.jsonl Accuracy Scores:
+prompt-level: 0.2854077253218884
+instruction-level: 0.40896358543417366
+
+change_case 0.23880597014925373
+combination 0.14285714285714285
+detectable_content 0.5
+detectable_format 0.5755395683453237
+keywords 0.49640287769784175
+language 0.7142857142857143
+length_constraints 0.39166666666666666
+punctuation 0.3333333333333333
+startend 0.16129032258064516
+
+change_case:capital_word_frequency 0.5555555555555556
+change_case:english_capital 0.19047619047619047
+change_case:english_lowercase 0.07142857142857142
+combination:repeat_prompt 0.17647058823529413
+combination:two_responses 0.09090909090909091
+detectable_content:number_placeholders 0.30434782608695654
+detectable_content:postscript 0.6956521739130435
+detectable_format:constrained_response 0.3
+detectable_format:json_format 0.8125
+detectable_format:multiple_sections 0.5454545454545454
+detectable_format:number_bullet_lists 0.41379310344827586
+detectable_format:number_highlighted_sections 0.7857142857142857
+detectable_format:title 0.41935483870967744
+keywords:existence 0.4857142857142857
+keywords:forbidden_words 0.5813953488372093
+keywords:frequency 0.3939393939393939
+keywords:letter_frequency 0.5
+language:response_language 0.7142857142857143
+length_constraints:nth_paragraph_first_word 0.1
+length_constraints:number_paragraphs 0.09090909090909091
+length_constraints:number_sentences 0.574468085106383
+length_constraints:number_words 0.4146341463414634
+punctuation:no_comma 0.3333333333333333
+startend:end_checker 0.16666666666666666
+startend:quotation 0.15789473684210525
+================================================================
+./GEMINI_XS_EVAL/eval_results_loose.jsonl Accuracy Scores:
+prompt-level: 0.34120171673819744
+instruction-level: 0.4649859943977591
+
+change_case 0.2835820895522388
+combination 0.16071428571428573
+detectable_content 0.5
+detectable_format 0.6115107913669064
+keywords 0.5323741007194245
+language 0.7142857142857143
+length_constraints 0.4666666666666667
+punctuation 0.43859649122807015
+startend 0.3387096774193548
+
+change_case:capital_word_frequency 0.6111111111111112
+change_case:english_capital 0.2857142857142857
+change_case:english_lowercase 0.07142857142857142
+combination:repeat_prompt 0.20588235294117646
+combination:two_responses 0.09090909090909091
+detectable_content:number_placeholders 0.30434782608695654
+detectable_content:postscript 0.6956521739130435
+detectable_format:constrained_response 0.3
+detectable_format:json_format 0.8125
+detectable_format:multiple_sections 0.5454545454545454
+detectable_format:number_bullet_lists 0.5862068965517241
+detectable_format:number_highlighted_sections 0.7857142857142857
+detectable_format:title 0.41935483870967744
+keywords:existence 0.4857142857142857
+keywords:forbidden_words 0.6976744186046512
+keywords:frequency 0.3939393939393939
+keywords:letter_frequency 0.5
+language:response_language 0.7142857142857143
+length_constraints:nth_paragraph_first_word 0.2
+length_constraints:number_paragraphs 0.2727272727272727
+length_constraints:number_sentences 0.574468085106383
+length_constraints:number_words 0.5121951219512195
+punctuation:no_comma 0.43859649122807015
+startend:end_checker 0.3333333333333333
+startend:quotation 0.34210526315789475
