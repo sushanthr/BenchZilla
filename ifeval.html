@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt API Benchmark</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #status, #progress, #results {
+            margin-top: 20px;
+        }
+        #benchmarkBtn {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prompt API Benchmark</h1>
+    <div id="status">Checking API availability...</div>
+    <button id="benchmarkBtn">Start Benchmark</button>
+    <div id="progress"></div>
+    <div id="results"></div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        const benchmarkBtn = document.getElementById('benchmarkBtn');
+        const progressDiv = document.getElementById('progress');
+        const resultsDiv = document.getElementById('results');
+
+        let inputData = [];
+        let outputData = [];
+
+        async function checkApiAvailability() {
+            try {
+                const canCreate = await ai.canCreateTextSession();
+                if (canCreate === "readily") {
+                    statusDiv.textContent = "Prompt API is available.";
+                    benchmarkBtn.style.display = "block";
+                } else if (canCreate === "no") {
+                    statusDiv.textContent = "Prompt API is not available.";
+                } else if (canCreate === "after-download") {
+                    statusDiv.textContent = "Prompt API will be available after download.";
+                } else {
+                    statusDiv.textContent = "Unknown API status.";
+                }
+            } catch (error) {
+                statusDiv.textContent = "Error checking API availability: " + error.message;
+            }
+        }
+
+        async function loadInputData() {
+            try {
+                const response = await fetch('input_data.jsonl');
+                const text = await response.text();
+                inputData = text.trim().split('\n').map(JSON.parse);
+            } catch (error) {
+                statusDiv.textContent = "Error loading input data: " + error.message;
+            }
+        }
+
+        async function runBenchmark() {
+            benchmarkBtn.disabled = true;
+            progressDiv.textContent = "Benchmark in progress...";
+            
+            let totalChars = 0;
+            let totalTime = 0;
+
+            for (let i = 0; i < inputData.length; i++) {
+                const item = inputData[i];
+                progressDiv.textContent = `Processing prompt ${i + 1} of ${inputData.length}`;
+
+                try {
+                    const session = await ai.createTextSession();
+                    const startTime = performance.now();
+                    const result = await session.prompt(item.prompt);
+                    const endTime = performance.now();
+
+                    const timeElapsed = endTime - startTime;
+                    const charCount = result.length;
+
+                    totalChars += charCount;
+                    totalTime += timeElapsed;
+
+                    outputData.push({
+                        prompt: item.prompt,
+                        response: result
+                    });
+                } catch (error) {
+                    console.error("Error processing prompt:", error);
+                }
+            }
+
+            const averageCharsPerSecond = totalChars / (totalTime / 1000);
+            resultsDiv.innerHTML = `
+                <h2>Benchmark Results</h2>
+                <p>Average characters per second: ${averageCharsPerSecond.toFixed(2)}</p>
+                <button onclick="downloadResults()">Download Results</button>
+            `;
+
+            progressDiv.textContent = "Benchmark completed.";
+            benchmarkBtn.disabled = false;
+        }
+
+        function downloadResults() {
+            const jsonlContent = outputData.map(JSON.stringify).join('\n');
+            const blob = new Blob([jsonlContent], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'output_data.jsonl';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        checkApiAvailability();
+        loadInputData();
+        benchmarkBtn.addEventListener('click', runBenchmark);
+    </script>
+</body>
+</html>
